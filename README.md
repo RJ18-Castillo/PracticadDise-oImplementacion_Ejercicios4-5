@@ -1,58 +1,105 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Práctica: Diseño e Implementación - Ejercicios 4 y 5
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Proyecto Laravel que reúne en un mismo repositorio los entregables de los Ejercicios 4 y 5.
 
-## About Laravel
+- **Ejercicio 4:** Receta e Ingredientes (diagrama de clases, código, instancia y diagrama entidad-relación).
+- **Ejercicio 5:** Individuo y Habitaciones (diagrama de clases).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Estructura del repositorio
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+```
+/
+├── app/
+│   └── Models/
+│       ├── Receta.php
+│       └── Ingrediente.php
+├── database/
+│   └── migrations/
+│       ├── ..._create_recetas_table.php
+│       ├── ..._create_ingredientes_table.php
+│       └── ..._create_ingrediente_receta_table.php
+├── routes/
+│   └── web.php
+├── docs/
+│   ├── ejercicio4/
+│   │   ├── diagrama-clases.png
+│   │   └── diagrama-er.png
+│   └── ejercicio5/
+│       └── diagrama-clases.png
+└── README.md
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+El resto de carpetas (`bootstrap/`, `config/`, `public/`, `resources/`, `storage/`, `tests/`) son la estructura estándar de Laravel y no fueron modificadas para estos ejercicios.
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Ejercicio 4: Receta e Ingredientes
 
-## Code of Conduct
+**Escenario:** una receta tiene título, porciones e instrucciones y contiene de uno a muchos ingredientes. Por cada ingrediente de la receta se registra la cantidad y la unidad de medida.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+| # | Punto del ejercicio | Ubicación |
+|---|---------------------|-----------|
+| 1 | Diagrama de clases | `docs/ejercicio4/diagrama-clases.png` |
+| 2 | Código de las clases | Modelos: `app/Models/Receta.php` y `app/Models/Ingrediente.php`. Migraciones: `database/migrations/` (archivos `create_recetas_table`, `create_ingredientes_table` y `create_ingrediente_receta_table`) |
+| 3 | Instanciar la clase Receta | Ruta `/receta` definida en `routes/web.php` (bloque `Ejercicio 4`) |
+| 4 | Diagrama Entidad-Relación | `docs/ejercicio4/diagrama-er.png` |
 
-## Security Vulnerabilities
+**Modelo de datos:** la relación entre `Receta` e `Ingrediente` es de muchos a muchos. La cantidad y la unidad de medida se guardan en la tabla intermedia `ingrediente_receta` (columnas `cantidad` y `unidad_medida`), a la que se accede desde los modelos con `withPivot()`.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## Ejercicio 5: Individuo y Habitaciones
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Escenario:** un individuo tiene nombre y fecha de nacimiento, puede tener cónyuge e hijos, vive en una habitación (casa o apartamento) y puede ser propietario de varias propiedades. Cada habitación tiene dirección y está compuesta por cuartos con superficie y función.
+
+| # | Punto del ejercicio | Ubicación |
+|---|---------------------|-----------|
+| 1 | Diagrama de clases | `docs/ejercicio5/diagrama-clases.png` |
+
+**Clases del diagrama:** `Individuo`, `Habitacion` (abstracta), `Casa`, `Apartamento` y `Cuarto`.
+
+---
+
+## Cómo ejecutar el proyecto
+
+Requisitos: PHP, Composer y un servidor MySQL.
+
+1. Instalar dependencias:
+
+   ```bash
+   composer install
+   ```
+
+2. Crear el archivo de entorno y generar la clave:
+
+   ```bash
+   copy .env.example .env
+   php artisan key:generate
+   ```
+
+3. Crear una base de datos vacía y configurarla en `.env`:
+
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=ejercicio4y5
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+
+4. Ejecutar las migraciones:
+
+   ```bash
+   php artisan migrate
+   ```
+
+5. Levantar el servidor y abrir la ruta del Ejercicio 4:
+
+   ```bash
+   php artisan serve
+   ```
+
+   Visitar `http://127.0.0.1:8000/receta`. Cada visita crea una receta de ejemplo (Panqueques) con sus ingredientes y devuelve el resultado en JSON.
